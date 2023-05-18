@@ -1,7 +1,4 @@
 'use strict';
-
-const { response } = require("express");
-
 const userForm = new UserForm();
 userForm.loginFormCallback = (data) => {
     ApiConnector.login(data, (response) => {
