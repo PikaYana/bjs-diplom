@@ -1,4 +1,6 @@
-const logoutButton = new LogoutButton;
+const { response } = require("express");
+
+const logoutButton = new LogoutButton();
 logoutButton.action = () => {
     ApiConnector.logout((response) => {
         if (response.success) {
@@ -13,14 +15,47 @@ ApiConnector.current((response) => {
     }
 })
 
-const ratesBoard = new RatesBoard;
-function updateRates(){
+const ratesBoard = new RatesBoard();
+const updateRates = ()=> {
 ApiConnector.getStocks((response) => {
 if (response.success) {
-    this.clearTable();
-    this.fillTable(data);
+    ratesBoard.clearTable();
+    ratesBoard.fillTable(data);
 }
 })
 }
-ratesBoard.updateRates();
+updateRates();
 setInterval(updateRates, 60 * 1000);
+
+const moneyManager = new moneyManager();
+moneyManager.addMoneyCallback = (data) => {
+    ApiConnector.addMoney(data, (response) => {
+        if(response.success){
+            ProfileWidget.showProfile(response.data);
+            moneyManager.setMessage;
+        } else {
+            moneyManager.setMessage;
+        }
+    })
+}
+
+moneyManager.conversionMoneyCallback = (data) => {
+    ApiConnector.convertMoney(data, (response) => {
+        if(response.success){
+            ProfileWidget.showProfile(response.data);
+            moneyManager.setMessage
+        } else {
+            moneyManager.setMessage;
+        }
+    })
+}
+moneyManager.sendMoneyCallback = (data) => {
+    ApiConnector.transferMoney(data, (response) => {
+      if (response.success) {
+        ProfileWidget.showProfile(response.data);
+        moneyManager.setMessage;
+      } else {
+        moneyManager.setMessage;
+      }
+    });
+  };
